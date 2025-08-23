@@ -1,0 +1,28 @@
+👉 This one is conceptual (done in MySQL Workbench).
+Entities & attributes:
+
+Student(StudentID, FirstName, LastName, DateOfBirth, Email, EnrollmentDate)
+
+Course(CourseID, CourseName, Credits, DepartmentID FK)
+
+Department(DepartmentID, DepartmentName)
+
+Instructor(InstructorID, FirstName, LastName, Email, DepartmentID FK)
+
+Enrollment(EnrollmentID, StudentID FK, CourseID FK, EnrollmentDate, Grade)
+
+Classroom(ClassroomID, Building, RoomNumber, Capacity)
+
+Schedule(ScheduleID, CourseID FK, InstructorID FK, ClassroomID FK, DayOfWeek, StartTime, EndTime)
+
+Relationships:
+
+Dept → Courses, Instructors
+
+Student ↔ Courses (via Enrollment)
+
+Course ↔ Instructor (via Schedule)
+
+Course scheduled in Classroom
+
+Instructor belongs to one Dept
