@@ -1,0 +1,25 @@
+-- DDL
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Age INT,
+    Department VARCHAR(30)
+);
+
+ALTER TABLE Students ADD Email VARCHAR(50);
+
+TRUNCATE TABLE Students;
+DROP TABLE Students;
+
+-- DML
+INSERT INTO Students (StudentID, Name, Age, Department, Email)
+VALUES (1, 'John Doe', 20, 'CSE', 'john@example.com');
+
+SELECT * FROM Students;
+
+UPDATE Students
+SET Email = 'john.doe@college.com'
+WHERE StudentID = 1;
+
+DELETE FROM Students
+WHERE StudentID = 1;
