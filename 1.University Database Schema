@@ -1,0 +1,125 @@
+CREATE DATABASE SRMUniversity;
+USE SRMUniversity;
+
+CREATE TABLE Departments (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(100) NOT NULL,
+    building VARCHAR(100)
+);
+
+CREATE TABLE Students (
+    student_id INT PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    dob DATE NOT NULL,
+    phone_number VARCHAR(15),
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES Departments(department_id)
+);
+
+CREATE TABLE Faculty (
+    faculty_id INT PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    phone_number VARCHAR(15),
+    position VARCHAR(50),
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES Departments(department_id)
+);
+
+CREATE TABLE Courses (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(100) NOT NULL,
+    credit_hours INT NOT NULL,
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES Departments(department_id)
+);
+
+CREATE TABLE Classes (
+    class_id INT PRIMARY KEY,
+    course_id INT NOT NULL,
+    faculty_id INT NOT NULL,
+    schedule VARCHAR(100),
+    room_number VARCHAR(10),
+    semester VARCHAR(10),
+    year YEAR,
+    FOREIGN KEY (course_id) REFERENCES Courses(course_id),
+    FOREIGN KEY (faculty_id) REFERENCES Faculty(faculty_id)
+);
+
+CREATE TABLE Enrollment (
+    enrollment_id INT PRIMARY KEY,
+    student_id INT NOT NULL,
+    class_id INT NOT NULL,
+    enrollment_date DATE,
+    FOREIGN KEY (student_id) REFERENCES Students(student_id),
+    FOREIGN KEY (class_id) REFERENCES Classes(class_id)
+);
+
+CREATE TABLE Attendance (
+    attendance_id INT PRIMARY KEY,
+    student_id INT NOT NULL,
+    class_id INT NOT NULL,
+    attendance_date DATE NOT NULL,
+    status ENUM('Present', 'Absent') NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES Students(student_id),
+    FOREIGN KEY (class_id) REFERENCES Classes(class_id)
+);
+
+CREATE TABLE Grades (
+    grade_id INT PRIMARY KEY,
+    student_id INT NOT NULL,
+    class_id INT NOT NULL,
+    grade CHAR(1) CHECK (grade IN ('A','B','C','D','F')),
+    FOREIGN KEY (student_id) REFERENCES Students(student_id),
+    FOREIGN KEY (class_id) REFERENCES Classes(class_id)
+);
+
+-- Sample Inserts
+INSERT INTO Departments VALUES
+(1,'Computer Science','Engineering Block A'),
+(2,'Mathematics','Science Block B'),
+(3,'Physics','Science Block C');
+
+INSERT INTO Students VALUES
+(1,'abcd','2000-01-15','1234567890',1),
+(2,'efghr','2001-08-10','1122334455',2),
+(3,'ijkl','1999-05-20','16534848',3);
+
+INSERT INTO Faculty VALUES
+(1,'Dr. xyz','1234556','Professor',1),
+(2,'xzy','8765432109','Lecturer',2),
+(3,'wxy','7654321098','Professor',3);
+
+INSERT INTO Courses VALUES
+(102,'Data Structures',3,1),
+(201,'Linear Algebra',4,2),
+(211,'Quantum Mechanics',3,3);
+
+INSERT INTO Classes VALUES
+(1,102,1,'Monday 10:00 AM - 12:00 PM','Room 101','Fall',2024),
+(2,201,2,'Tuesday 2:00 PM - 4:00 PM','Room 202','Fall',2024),
+(3,211,3,'Wednesday 9:00 AM - 11:00 AM','Room 303','Fall',2024);
+
+INSERT INTO Enrollment VALUES
+(1,1,1,'2024-08-15'),
+(2,2,2,'2024-08-16'),
+(3,3,3,'2024-08-17');
+
+INSERT INTO Attendance VALUES
+(1,1,1,'2024-09-01','Present'),
+(2,2,2,'2024-09-01','Absent'),
+(3,3,3,'2024-09-01','Present');
+
+INSERT INTO Grades VALUES
+(1,1,1,'A'),
+(2,2,2,'B'),
+(3,3,3,'A');
+
+-- Display
+SELECT * FROM Departments;
+SELECT * FROM Students;
+SELECT * FROM Faculty;
+SELECT * FROM Courses;
+SELECT * FROM Classes;
+SELECT * FROM Enrollment;
+SELECT * FROM Attendance;
+SELECT * FROM Grades;
