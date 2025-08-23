@@ -1,0 +1,56 @@
+-- Tables
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(100)
+);
+
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Salary DECIMAL(10,2),
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+INSERT INTO Departments VALUES
+(1,'HR'),(2,'Finance'),(3,'IT'),(4,'Marketing');
+
+INSERT INTO Employees VALUES
+(101,'Alice','Johnson',55000,1),
+(102,'Bob','Smith',72000,3),
+(103,'Charlie','Brown',48000,2),
+(104,'David','Lee',65000,3),
+(105,'Eva','Green',51000,4),
+(106,'Frank','Miller',75000,2);
+
+-- Subqueries
+SELECT * FROM Employees WHERE Salary > (SELECT AVG(Salary) FROM Employees);
+
+SELECT DepartmentID, AvgSalary
+FROM (SELECT DepartmentID, AVG(Salary) AS AvgSalary FROM Employees GROUP BY DepartmentID) AS DeptAvg;
+
+-- Joins
+SELECT e.EmployeeID, e.FirstName, e.LastName, d.DepartmentName
+FROM Employees e INNER JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+
+SELECT e.EmployeeID, e.FirstName, d.DepartmentName
+FROM Employees e LEFT JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+
+SELECT e.EmployeeID, e.FirstName, d.DepartmentName
+FROM Employees e RIGHT JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+
+SELECT e1.FirstName AS Emp1, e2.FirstName AS Emp2, e1.DepartmentID
+FROM Employees e1 JOIN Employees e2 ON e1.DepartmentID = e2.DepartmentID AND e1.EmployeeID <> e2.EmployeeID;
+
+-- Clauses
+SELECT * FROM Employees WHERE DepartmentID = 3;
+
+SELECT DepartmentID, SUM(Salary) AS TotalSalary FROM Employees GROUP BY DepartmentID;
+
+SELECT DepartmentID, SUM(Salary) AS TotalSalary
+FROM Employees GROUP BY DepartmentID HAVING SUM(Salary) > 100000;
+
+SELECT * FROM Employees ORDER BY Salary DESC;
+
+SELECT * FROM Employees ORDER BY Salary DESC LIMIT 3;
