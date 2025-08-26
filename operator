@@ -1,0 +1,14 @@
+public class OperatorsExample {
+    public static void main(String[] args) {
+        int a = 10, b = 5;
+
+        // Arithmetic operator
+        System.out.println("a + b = " + (a + b));
+
+        // Relational operator
+        System.out.println("a > b = " + (a > b));
+
+        // Logical operator
+        System.out.println("(a > 5 && b < 10) = " + (a > 5 && b < 10));
+    }
+}
